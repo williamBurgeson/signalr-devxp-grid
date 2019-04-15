@@ -21,7 +21,9 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/assets"
+              "src/assets",
+              "src/signalr-assets",
+              "src/stock-ticker.html"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",

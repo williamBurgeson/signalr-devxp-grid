@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StockTickR;
+using StockTickR.Hubs;
 
 namespace signalr_devextreme_angular
 {
@@ -52,6 +53,11 @@ namespace signalr_devextreme_angular
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<StockTickerHub>("/stocks");
+            });
 
             app.UseMvc(routes =>
             {
