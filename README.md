@@ -1,0 +1,1 @@
+signalr-devextreme-angular
