@@ -12,34 +12,59 @@ import CustomStore from 'devextreme/data/custom_store';
 })
 export class NgGridComponent implements OnInit {
   dataSource: any;
-  connectionStarted: boolean;
-  hubConnection: HubConnection;
+  connectionStarted = false;
+  streaming = false;
+  readonly hubConnection: HubConnection;
+  readonly store: CustomStore;
 
-  constructor() { }
-
-  ngOnInit() {
-    this.connectionStarted = false;
-
+  constructor() {
     this.hubConnection = new HubConnectionBuilder()
       //.withUrl("/Demos/NetCore/liveUpdateSignalRHub")
       .withUrl("/stocks")
       .build();
 
-    var store = new CustomStore({
+    this.store = new CustomStore({
       load: () => this.hubConnection.invoke("getAllStocks"),
       key: "symbol"
     });
+  }
+
+  ngOnInit() {
+    this.connectionStarted = false;
 
     this.hubConnection
       .start()
       .then(() => {
         this.hubConnection.on("getAllStocks", (data: any) => {
           console.log(JSON.stringify(data));
-          store.push([{ type: "update", key: data.symbol, data: data }]);
+          this.store.push([{ type: "update", key: data.symbol, data: data }]);
+          this.startStreaming();
         });
-        this.dataSource = store;
+        this.hubConnection.on("marketOpened", () => {
+          this.startStreaming();
+        });
+        this.dataSource = this.store;
         this.connectionStarted = true;
       });
+  }
+
+  startStreaming() {
+    if (this.streaming) return;
+
+    this.streaming = true;
+
+    this.hubConnection.stream("streamStocks").subscribe({
+      complete: () => { console.log('streamStocks complete') },
+      next: stock => this.displayStock(stock),
+      error: function (err) {
+        console.error(err);
+      }
+    });
+  }
+
+  displayStock(stock) {
+    console.log(`streamStocks: data= ${JSON.stringify(stock)}`);
+    this.store.push([{ type: "update", key: stock.symbol, data: stock }]);
   }
 
   openMarket() {

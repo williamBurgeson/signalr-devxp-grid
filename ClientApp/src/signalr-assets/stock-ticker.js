@@ -107,6 +107,7 @@ function marketClosed() {
 }
 
 function displayStock(stock) {
+  console.log(`displayStock: ${JSON.stringify(stock)}`);
   var displayStock = formatStock(stock);
   addOrReplaceStock(stockTableBody, displayStock, 'tr', rowTemplate);
   addOrReplaceStock(stockTickerBody, displayStock, 'li', tickerTemplate);
