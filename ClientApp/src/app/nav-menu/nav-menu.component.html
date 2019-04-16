@@ -17,6 +17,12 @@
           <li class="nav-item" [routerLinkActive]='["link-active"]'>
             <a class="nav-link text-dark" [routerLink]='["/fetch-data"]'>Fetch data</a>
           </li>
+          <li class="nav-item" [routerLinkActive]='["link-active"]'>
+            <a class="nav-link text-dark" [href]="'/stock-ticker.html'">Stock Ticker (native HTML)</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]='["link-active"]'>
+            <a class="nav-link text-dark" [routerLink]='["/ng-grid"]'>Stock Ticker (angular with dev extreme grid)</a>
+          </li>
         </ul>
       </div>
     </div>

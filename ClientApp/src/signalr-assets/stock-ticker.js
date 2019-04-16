@@ -41,11 +41,11 @@ connection.start().then(function () {
 
   document.getElementById('open').onclick = function () {
     connection.invoke("OpenMarket");
-  }
+  };
 
   document.getElementById('close').onclick = function () {
     connection.invoke("CloseMarket");
-  }
+  };
 
   document.getElementById('reset').onclick = function () {
     connection.invoke("Reset").then(function () {
@@ -55,7 +55,7 @@ connection.start().then(function () {
         }
       });
     });
-  }
+  };
 });
 
 connection.on("marketOpened", function () {
